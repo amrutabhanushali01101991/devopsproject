@@ -1,11 +1,17 @@
 pipeline{
     tools{
-        jdk 'myjava'
+        jdk 'jdk8maven'
         maven 'mymaven'
     }
     
     agent none
-    stages{
+    stages{stage('Checkout'){
+                agent any
+                steps{
+                    sh 'mvn compile'
+                }
+            }
+        
             stage('Compile'){
                 agent any
                 steps{
@@ -24,9 +30,9 @@ pipeline{
                 }
             }
             stage('UnitTest'){
-                agent {label 'win_slave'}
+                agent {label 'amrutawin_slave'}
                 steps{
-                    git 'https://github.com/devops-trainer/DevOpsClassCodes.git'
+                    git 'https://github.com/amrutabhanushali011019911/devopsproject.git'
                     bat 'mvn test'
                 }
                 post{
@@ -39,10 +45,14 @@ pipeline{
             stage('MetricCheck'){
                 agent any
                 steps{
+                    
+                    git 'https://github.com/amrutabhanushali011019911/devopsproject.git'
+              
                     sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'
                 }
                 post{
                     always{
+                        
                         cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
                     }
                 }
