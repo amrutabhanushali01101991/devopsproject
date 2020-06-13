@@ -33,7 +33,7 @@ pipeline{
                 //agent {label 'amrutawin_slave'}
                 agent any
                 steps{
-                  git 'https://github.com/amrutabhanushali011019911/devopsproject.git'
+                  //git 'https://github.com/amrutabhanushali011019911/devopsproject.git'
                     //bat 'mvn test'
                     sh 'mvn test'
                 }
